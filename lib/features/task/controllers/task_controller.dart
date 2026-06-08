@@ -1,65 +1,88 @@
-class Task {
-  String title;
-  bool isDone;
-
-  Task({required this.title, this.isDone = false});
-}
+import '../../../models/task_model.dart';
+import '../../../services/storage_service.dart';
 
 class TaskController {
   List<Task> _tasks = [];
 
-  // Ambil semua task
+  TaskController() {
+  loadTasks();
+}
+
   List<Task> getTasks() {
     return _tasks;
   }
 
-  // Tambah task
   void addTask(String title) {
-    if (title.isEmpty) return;
-    _tasks.add(Task(title: title));
-  }
+    if (title.trim().isEmpty) return;
 
-  // Hapus task
+    _tasks.add(
+      Task(
+      title: title,
+    ),
+  );
+
+  StorageService.taskBox.add({
+    "title": title,
+    "isDone": false,
+  });
+}
+
   void deleteTask(int index) {
-    if (index < 0 || index >= _tasks.length) return;
-    _tasks.removeAt(index);
-  }
+  StorageService.taskBox.deleteAt(index);
 
-  // Toggle selesai / belum
+  _tasks.removeAt(index);
+}
+
   void toggleTask(int index) {
-    if (index < 0 || index >= _tasks.length) return;
-    _tasks[index].isDone = !_tasks[index].isDone;
-  }
 
-  // Progress (0 - 1)
-  double getProgress() {
-    if (_tasks.isEmpty) return 0;
-    int done = _tasks.where((t) => t.isDone).length;
-    return done / _tasks.length;
-  }
+  _tasks[index].isDone =
+      !_tasks[index].isDone;
 
-  // Total task
+  StorageService.taskBox.putAt(
+    index,
+    {
+      "title": _tasks[index].title,
+      "isDone": _tasks[index].isDone,
+    },
+  );
+}
+
   int getTotalTask() {
     return _tasks.length;
   }
 
-  // Task selesai
   int getCompletedTask() {
-    return _tasks.where((t) => t.isDone).length;
+    return _tasks.where((task) => task.isDone).length;
   }
 
-  // Suggestion (biar keliatan smart 😄)
   String getSuggestion() {
-    int pending = _tasks.where((t) => !t.isDone).length;
+    int pending = _tasks.where((task) => !task.isDone).length;
+
+    if (_tasks.isEmpty) {
+      return "Belum ada tugas.";
+    }
 
     if (pending > 5) {
-      return "Tugas kamu banyak banget, coba selesaikan satu-satu ya!";
-    } else if (pending == 0 && _tasks.isNotEmpty) {
-      return "Keren! Semua tugas selesai!";
-    } else if (_tasks.isEmpty) {
-      return "Belum ada tugas, yuk mulai produktif!";
-    } else {
-      return "Tetap semangat, kamu pasti bisa!";
+      return "Tugas masih banyak, ayo selesaikan satu per satu.";
     }
+
+    if (pending == 0) {
+      return "Semua tugas selesai. Kerja bagus!";
+    }
+
+    return "Tetap semangat dan produktif!";
   }
+
+  void loadTasks() {
+  _tasks = [];
+
+  for (var item in StorageService.taskBox.values) {
+    _tasks.add(
+      Task(
+        title: item["title"],
+        isDone: item["isDone"],
+      ),
+    );
+  }
+}
 }

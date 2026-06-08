@@ -6,25 +6,22 @@ class StatsController {
   StatsController(this.taskController);
 
   int getTotalTask() {
-    return taskController.getTasks().length;
+    return taskController.getTotalTask();
   }
 
   int getCompletedTask() {
-    return taskController
-        .getTasks()
-        .where((task) => task.isDone)
-        .length;
+    return taskController.getCompletedTask();
   }
 
   int getPendingTask() {
-    return taskController
-        .getTasks()
-        .where((task) => !task.isDone)
-        .length;
+    return getTotalTask() - getCompletedTask();
   }
 
   double getProgress() {
-    if (getTotalTask() == 0) return 0;
+    if (getTotalTask() == 0) {
+      return 0;
+    }
+
     return getCompletedTask() / getTotalTask();
   }
 }
