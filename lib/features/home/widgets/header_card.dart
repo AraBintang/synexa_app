@@ -6,7 +6,8 @@ class HeaderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180,
+      width: double.infinity,
+      padding: const EdgeInsets.all(25),
 
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
@@ -16,41 +17,101 @@ class HeaderCard extends StatelessWidget {
             Color(0xff6366F1),
             Color(0xff8B5CF6),
           ],
-
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
+
+        boxShadow: [
+          BoxShadow(
+            color: Colors.deepPurple.withOpacity(0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
 
-      child: const Padding(
-        padding: EdgeInsets.all(25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
 
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              CircleAvatar(
+                radius: 28,
+                backgroundColor: Colors.white,
 
-          children: [
-
-            Text(
-              "👋 Welcome to Synexa",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+                child: Icon(
+                  Icons.person,
+                  size: 35,
+                  color: Color(0xff6366F1),
+                ),
               ),
+
+              SizedBox(width: 15),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+
+                  children: [
+                    Text(
+                      "Hello 👋",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 16,
+                      ),
+                    ),
+
+                    Text(
+                      "Welcome to Synexa",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight:
+                            FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 25),
+
+          Container(
+            padding: const EdgeInsets.all(15),
+
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+
+              borderRadius:
+                  BorderRadius.circular(20),
             ),
 
-            SizedBox(height: 10),
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.lightbulb,
+                  color: Colors.amber,
+                ),
 
-            Text(
-              "Stay productive and manage your day efficiently",
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-              ),
+                SizedBox(width: 10),
+
+                Expanded(
+                  child: Text(
+                    "Stay productive and manage your day efficiently.",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
