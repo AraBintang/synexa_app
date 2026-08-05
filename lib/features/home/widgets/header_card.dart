@@ -23,7 +23,7 @@ class HeaderCard extends StatelessWidget {
 
         boxShadow: [
           BoxShadow(
-            color: Colors.deepPurple.withOpacity(0.3),
+            color: Colors.deepPurple.withValues(alpha: 0.3),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -84,7 +84,7 @@ class HeaderCard extends StatelessWidget {
             padding: const EdgeInsets.all(15),
 
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
 
               borderRadius:
                   BorderRadius.circular(20),

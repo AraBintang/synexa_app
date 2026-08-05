@@ -128,25 +128,26 @@ class TaskController {
   }
 
   int getRemainingDays(int index) {
-    Duration difference =
-        _tasks[index].deadline.difference(
-      DateTime.now(),
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final deadlineDate = DateTime(
+      _tasks[index].deadline.year,
+      _tasks[index].deadline.month,
+      _tasks[index].deadline.day,
     );
-
-    return difference.inHours ~/ 24;
+    return deadlineDate.difference(today).inDays;
   }
 
   bool isNearDeadline(int index) {
+    if (_tasks[index].isDone || isOverdue(index)) return false;
     int days = getRemainingDays(index);
-
-    return days >= 0 &&
-        days <= 1 &&
-        !_tasks[index].isDone;
+    return days >= 0 && days <= 1;
   }
 
   bool isOverdue(int index) {
-    return getRemainingDays(index) < 0 &&
-        !_tasks[index].isDone;
+    if (_tasks[index].isDone) return false;
+    final now = DateTime.now();
+    return _tasks[index].deadline.isBefore(now) || getRemainingDays(index) < 0;
   }
 
   List<Task> getPendingTasks() {
@@ -157,16 +158,16 @@ class TaskController {
 
   List<Task> getNearDeadlineTasks() {
     return _tasks.where((task) {
-      Duration difference =
-          task.deadline.difference(
-        DateTime.now(),
+      if (task.isDone) return false;
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final deadlineDate = DateTime(
+        task.deadline.year,
+        task.deadline.month,
+        task.deadline.day,
       );
-
-      int days = difference.inHours ~/ 24;
-
-      return days >= 0 &&
-          days <= 1 &&
-          !task.isDone;
+      final days = deadlineDate.difference(today).inDays;
+      return days >= 0 && days <= 1 && !task.deadline.isBefore(now);
     }).toList();
   }
 

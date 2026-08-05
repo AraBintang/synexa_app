@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/schedule_model.dart';
 import '../controllers/schedule_controller.dart';
 
 class SchedulePage extends StatefulWidget {

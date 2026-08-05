@@ -168,6 +168,8 @@ class _LoginPageState extends State<LoginPage> {
                                     return;
                                   }
                                   setState(() => _loading = true);
+                                  final navigator = Navigator.of(context);
+                                  final messenger = ScaffoldMessenger.of(context);
                                   try {
                                     final email = _emailController.text.trim();
                                     final password = _passwordController.text;
@@ -189,13 +191,13 @@ class _LoginPageState extends State<LoginPage> {
                                     );
 
                                     if (!mounted) return;
-                                    Navigator.of(context).pushReplacementNamed(
+                                    navigator.pushReplacementNamed(
                                       '/auth_success',
                                       arguments: {'message': 'Login berhasil'},
                                     );
                                   } on FirebaseAuthException catch (e) {
                                     if (!mounted) return;
-                                    ScaffoldMessenger.of(context).showSnackBar(
+                                    messenger.showSnackBar(
                                       SnackBar(
                                         content: Text(
                                           'Login gagal: ${e.message ?? e.code}',
@@ -204,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                                     );
                                   } catch (e) {
                                     if (!mounted) return;
-                                    ScaffoldMessenger.of(context).showSnackBar(
+                                    messenger.showSnackBar(
                                       SnackBar(
                                         content: Text('Login gagal: $e'),
                                       ),

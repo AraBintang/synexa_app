@@ -123,8 +123,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       // Validasi sederhana: pastikan ada satu '@' dan setidaknya satu '.' setelahnya.
                       // Hindari regex yang terlalu ketat sehingga email valid bisa dianggap salah.
                       final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
-                      if (!emailRegex.hasMatch(v))
+                      if (!emailRegex.hasMatch(v)) {
                         return 'Format email tidak valid';
+                      }
                       return null;
                     },
                   ),

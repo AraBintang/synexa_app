@@ -67,7 +67,7 @@ class _TaskPageState extends State<TaskPage> {
                               context: context,
                               initialDate: tempDate,
                               firstDate:
-                                  DateTime(2025),
+                                  DateTime.now().subtract(const Duration(days: 365)),
                               lastDate:
                                   DateTime(2100),
                             );

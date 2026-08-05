@@ -13,7 +13,7 @@ const Color(0xFFF3F4F8),
     centerTitle: true,
   ),
 
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
